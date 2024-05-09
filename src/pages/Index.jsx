@@ -1,8 +1,10 @@
-import { Box, Flex, Input, Select, Text, Container, IconButton, Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, ModalFooter, Button, useDisclosure } from "@chakra-ui/react";
+import { Box, Flex, Input, Select, Text, Container, IconButton, Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, ModalFooter, Button, useDisclosure, Grid, GridItem, Link } from "@chakra-ui/react";
 import { FaHome, FaCalendarAlt, FaCog, FaSignOutAlt } from "react-icons/fa";
+import { useState } from "react";
 
 const Index = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const currentDate = new Date().getDate();
 
   const professionals = [
     { id: 1, name: "Dr. John Doe", specialty: "Cardiology", bio: "Experienced in complex cardiac cases." },
@@ -62,6 +64,13 @@ const Index = () => {
             </Box>
           ))}
         </Flex>
+        <Grid templateColumns="repeat(7, 1fr)" gap={1} p={4} bg="white" border="1px solid lightgray">
+          {Array.from({ length: 28 }).map((_, index) => (
+            <GridItem key={index} w="100%" h="100px" bg="white" border={index + 1 === currentDate ? "2px solid teal" : "1px solid lightgray"} _hover={{ bg: "gray.100" }}>
+              <Text fontSize="sm">{index + 1}</Text>
+            </GridItem>
+          ))}
+        </Grid>
       </Container>
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
@@ -79,6 +88,22 @@ const Index = () => {
           </ModalFooter>
         </ModalContent>
       </Modal>
+      <Box as="footer" bg="#00008B" color="lightgray" p={4}>
+        <Flex justify="space-between" align="center">
+          <Box>
+            <Text mb={2}>Links</Text>
+            <Link href="#" color="gray.300">Home</Link><br />
+            <Link href="#" color="gray.300">About</Link><br />
+            <Link href="#" color="gray.300">Contact</Link>
+          </Box>
+          <Box>
+            <Text mb={2}>Company</Text>
+            <Link href="#" color="gray.300">Team</Link><br />
+            <Link href="#" color="gray.300">Careers</Link><br />
+            <Link href="#" color="gray.300">Blog</Link>
+          </Box>
+        </Flex>
+      </Box>
     </Box>
   );
 };
