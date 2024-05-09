@@ -1,13 +1,34 @@
 import { Box, Flex, Input, Select, Text, Container, IconButton, Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, ModalFooter, Button, useDisclosure } from "@chakra-ui/react";
 import { FaHome, FaCalendarAlt, FaCog, FaSignOutAlt } from "react-icons/fa";
+import { Calendar, momentLocalizer } from 'react-big-calendar';
+import moment from 'moment';
+import 'react-big-calendar/lib/css/react-big-calendar.css';
 
 const Index = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const localizer = momentLocalizer(moment);
 
   const professionals = [
     { id: 1, name: "Dr. John Doe", specialty: "Cardiology", bio: "Experienced in complex cardiac cases." },
     { id: 2, name: "Dr. Jane Smith", specialty: "Dermatology", bio: "Expert in skin health and cosmetic dermatology." },
     { id: 3, name: "Dr. Richard Roe", specialty: "Neurology", bio: "Specializes in neurological disorders." }
+  ];
+
+  const events = [
+    {
+      id: 0,
+      title: 'Booked Slot',
+      start: new Date(2023, 5, 10, 10, 0, 0),
+      end: new Date(2023, 5, 10, 11, 0, 0),
+      bgColor: 'red'
+    },
+    {
+      id: 1,
+      title: 'Available Slot',
+      start: new Date(2023, 5, 11, 12, 0, 0),
+      end: new Date(2023, 5, 11, 13, 0, 0),
+      bgColor: 'green'
+    }
   ];
 
   return (
@@ -62,6 +83,18 @@ const Index = () => {
             </Box>
           ))}
         </Flex>
+        <Calendar
+          localizer={localizer}
+          events={events}
+          startAccessor="start"
+          endAccessor="end"
+          style={{ height: 500, margin: '50px' }}
+          eventPropGetter={event => ({
+            style: {
+              backgroundColor: event.bgColor
+            }
+          })}
+        />
       </Container>
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
@@ -79,6 +112,15 @@ const Index = () => {
           </ModalFooter>
         </ModalContent>
       </Modal>
+      <Box as="footer" bg="#00008B" color="lightgray" p="4" mt="20px">
+        <Container maxW="container.xl">
+          <Flex justifyContent="space-between">
+            <Text>© 2023 Health Booking Platform</Text>
+            <Text>Privacy Policy</Text>
+            <Text>Contact Us</Text>
+          </Flex>
+        </Container>
+      </Box>
     </Box>
   );
 };
